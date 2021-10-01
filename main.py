@@ -9,10 +9,12 @@ Codex to generate a README.
 import openai
 import sys
 import os
+import argparse
 
-FILES_NOT_TO_INCLUDE = ['LICENSE']
+FILES_NOT_TO_INCLUDE = ['LICENSE', 'README.md']
 STREAM = True
-README_START =  '## What is it?\n'
+# README_START =  '## What is it?\n'
+README_START =  ''
 
 # Get config dir from environment or default to ~/.config
 CONFIG_DIR = os.getenv('XDG_CONFIG_HOME', os.path.expanduser('~/.config'))
@@ -125,8 +127,8 @@ def create_input_prompt(length=3000):
     return input_prompt
 
 
-def generate_completion(input_prompt):
-    response = openai.Completion.create(engine='davinci-codex', prompt=input_prompt, temperature=0.5, max_tokens=1000, stream=STREAM, stop='===================\n')
+def generate_completion(input_prompt, num_tokens):
+    response = openai.Completion.create(engine='davinci-codex', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
     return response
 
 
@@ -134,24 +136,71 @@ def generate_completion(input_prompt):
 def clear_screen_and_display_generated_readme(response):
     # Clear screen.
     os.system('cls' if os.name == 'nt' else 'clear')
+    generated_readme = ''
     print(README_START)
+    generated_readme = README_START
     while True:
         next_response = next(response)
         completion = next_response['choices'][0]['text']
         # print("completion:", completion)
         # print(next(response))
         print(completion, end='')
+        generated_readme = generated_readme + completion
         if next_response['choices'][0]['finish_reason'] != None: break
 
+    return generated_readme
 
 
+def save_readme(readme_text):
+    '''
+    Saves the readme.
+    If a readme already exists ask the user whether he wants
+    to overwrite it.
+    '''
+    if os.path.isfile('README.md'):
+        answer = input('A README.md already exists. Do you want to overwrite it? [y/N] ')
+        if answer == '' or answer == 'n' or answer == 'N':
+            print('\nThe README was not saved.')
+            return
 
+    with open('README.md', 'w') as f:
+        f.write(readme_text)
+
+    print('\nREADME.md saved.')
+
+def generate_until_accepted(input_prompt, num_tokens):
+    '''
+    Generate new readmes and ask the user if he wants to save the generated
+    readme.
+    '''
+    while True:
+        response = generate_completion(input_prompt, num_tokens)
+        generated_readme = clear_screen_and_display_generated_readme(response)
+
+        # Ask the user if he wants to save the generated readme.
+        answer = input("\n\nDo you want to save the generated README? [y/N] ")
+        if answer == '' or answer == 'n' or answer == 'N':
+            print('\nThe generated README is not saved.')
+            continue
+        elif answer == 'y' or answer == 'Y':
+            save_readme(generated_readme)
+
+        answer = input("\n\nDo you want to generate another README? [Y/n] ")
+        if answer == '' or answer == 'y' or answer == 'Y':
+            continue
+        break
+
+def get_args():
+    # Get the number of tokens as positional argument.
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--tokens", type=int, default=300)
+    args = parser.parse_args()
+    return args
+
+args = get_args()
 initialize_openai_api()
 input_prompt = create_input_prompt()
-# print("input_prompt:", input_prompt)
-
-response = generate_completion(input_prompt)
-clear_screen_and_display_generated_readme(response)
+generate_until_accepted(input_prompt, args.tokens)
 
 
   
