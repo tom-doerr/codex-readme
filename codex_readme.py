@@ -13,8 +13,8 @@ import argparse
 
 FILES_NOT_TO_INCLUDE = ['LICENSE', 'README.md']
 STREAM = True
-# README_START =  '## What is it?\n'
-README_START =  '## What is it?'
+cur_dir_not_full_path = os.getcwd().split('/')[-1]
+README_START =  f'# {cur_dir_not_full_path}\n## What is it?\n'
 
 # Get config dir from environment or default to ~/.config
 CONFIG_DIR = os.getenv('XDG_CONFIG_HOME', os.path.expanduser('~/.config'))
@@ -64,6 +64,8 @@ def initialize_openai_api():
 def create_input_prompt(length=3000):
     input_prompt = ''
     files_sorted_by_mod_date = sorted(os.listdir('.'), key=os.path.getmtime)
+    # Reverse sorted files.
+    files_sorted_by_mod_date = files_sorted_by_mod_date[::-1]
     for filename in files_sorted_by_mod_date:
         # Check if file is a image file.
         is_image_file = False
@@ -76,6 +78,9 @@ def create_input_prompt(length=3000):
             with open(filename) as f:
                 input_prompt += '\n===================\n# ' + filename + ':\n'
                 input_prompt += f.read() + '\n'
+
+        # Abort after first file, more files not yet supported
+        continue
 
     input_prompt = input_prompt[:length]
     input_prompt += '\n\n===================\n# ' + 'README.md:' + '\n'
@@ -150,7 +155,7 @@ def generate_until_accepted(input_prompt, num_tokens):
 def get_args():
     # Get the number of tokens as positional argument.
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tokens", type=int, default=300)
+    parser.add_argument("--tokens", type=int, default=256)
     args = parser.parse_args()
     return args
 
