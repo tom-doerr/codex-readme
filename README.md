@@ -1,3 +1,11 @@
+<h1 align="center">🤖 codex-readme 📜</h1>
+<p align="center">
+    <img src='https://github.com/tom-doerr/bins/raw/main/codex-readme/r5.gif'>
+    <p align="center">
+    </p>
+</p>
+
+
 # codex-readme
 ## What is it?
 
