@@ -1,4 +1,4 @@
-# /home/tom/git/codex-readme
+# codex-readme
 ## What is it?
 
 This project is a set of programs that I use to create a README.md file.
