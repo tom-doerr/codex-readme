@@ -40,6 +40,9 @@ def create_template_ini_file():
 
         print('OpenAI API config file created at {}'.format(API_KEYS_LOCATION))
         print('Please edit it and add your organization ID and secret key')
+        print('If you do not yet have an organization ID and secret key, you\n'
+               'need to register for OpenAI Codex: \n'
+                'https://openai.com/blog/openai-codex/')
         sys.exit(1)
 
 def initialize_openai_api():
