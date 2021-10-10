@@ -5,9 +5,15 @@ This script reads program files and concatenates the beginning of
 all files to create a input prompt which is then fed to OpenAI
 Codex to generate a README.
 '''
-
-import openai
 import sys
+
+# Check if the openai module is installed.
+try:
+    import openai
+except ImportError:
+    print('openai module not found. Try running "pip3 install openai"')
+    sys.exit(1)
+
 import os
 import argparse
 
