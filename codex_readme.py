@@ -14,7 +14,7 @@ import argparse
 FILES_NOT_TO_INCLUDE = ['LICENSE', 'README.md']
 STREAM = True
 # README_START =  '## What is it?\n'
-README_START =  ''
+README_START =  '## What is it?'
 
 # Get config dir from environment or default to ~/.config
 CONFIG_DIR = os.getenv('XDG_CONFIG_HOME', os.path.expanduser('~/.config'))
@@ -85,7 +85,7 @@ def create_input_prompt(length=3000):
 
 
 def generate_completion(input_prompt, num_tokens):
-    response = openai.Completion.create(engine='cushman-codex', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
+    response = openai.Completion.create(engine='davinci-codex', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
     return response
 
 
