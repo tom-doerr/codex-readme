@@ -62,49 +62,6 @@ def initialize_openai_api():
 
 
 def create_input_prompt(length=3000):
-    '''
-    The input prompt is notlonger than length characters.
-    The beginning of all files that are added for the prompt are all 
-    of the same length.
-    
-    Output:
-    "
-    ===================
-    main.py:
-    import openai
-    import sys
-    import os
-
-    STREAM = False
-
-
-    # Get config dir from environment or default to ~/.config
-    CONFIG_DIR = os.getenv('XDG_CONFIG_HOME', os.path.expanduser('~/.config'))
-    API_KEYS_LOCATION = os.path.join(CONFIG_DIR, 'openaiapirc')
-
-    ===================
-    test.py
-    #!/usr/bin/env python3
-
-
-    def selection_sort(a):
-        n = len(a)
-        for i in range(0, n - 1):
-            min_index = i
-            for j in range(i + 1, n):
-                if a[j] < a[min_index]:
-                if a[j] < a[min_index]:                min_index = j
-            a[i], a[min_index] = a[min_index], a[i]
-        return a
-
-
-    if __name__ == '__main__':
-        print(selection_sort([3, 2, 5, 1, 4, 0]))
-
-    ===================
-    README.md:
-    "
-    '''
     input_prompt = ''
     files_sorted_by_mod_date = sorted(os.listdir('.'), key=os.path.getmtime)
     for filename in files_sorted_by_mod_date:
@@ -128,7 +85,7 @@ def create_input_prompt(length=3000):
 
 
 def generate_completion(input_prompt, num_tokens):
-    response = openai.Completion.create(engine='davinci-codex', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
+    response = openai.Completion.create(engine='cushman-codex', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
     return response
 
 
