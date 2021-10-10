@@ -27,5 +27,5 @@ This project is based on the OpenAI Codex project.
 
 ## Contact
 
-If you have any questions or would like to get in touch, please open an issue on Github or send me an email: <tom@0x101.com>.
+If you have any questions or would like to get in touch, please open an issue on Github or send me an email: <tom.doerr@tum.de>
 
