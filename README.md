@@ -2,7 +2,8 @@
 <p align="center">
     <img src='https://github.com/tom-doerr/bins/raw/main/codex-readme/r5.gif'>
     <p align="center">
-    The gif shows how the readme below was generated. To generate your own readmes you need to have access to the [Codex API](https://openai.com/blog/openai-codex/). 
+    The gif shows how the readme below was generated. To generate your own readmes you need to have access to the 
+    <href="https://openai.com/blog/openai-codex/">Codex API</href>.
     </p>
 </p>
 
