@@ -168,10 +168,11 @@ def get_args():
     args = parser.parse_args()
     return args
 
-args = get_args()
-initialize_openai_api()
-input_prompt = create_input_prompt()
-generate_until_accepted(input_prompt, args.tokens)
+if __name__ == '__main__':
+    args = get_args()
+    initialize_openai_api()
+    input_prompt = create_input_prompt()
+    generate_until_accepted(input_prompt, args.tokens)
 
 
   
