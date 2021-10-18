@@ -88,9 +88,6 @@ def create_input_prompt(length=3000):
                 input_prompt += '\n===================\n# ' + filename + ':\n'
                 input_prompt += f.read() + '\n'
 
-        # Abort after first file, more files not yet supported
-        continue
-
     input_prompt = input_prompt[:length]
     input_prompt += '\n\n===================\n# ' + 'README.md:' + '\n'
     input_prompt += README_START
