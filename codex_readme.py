@@ -16,6 +16,7 @@ except ImportError:
 
 import os
 import argparse
+import configparser
 
 FILES_NOT_TO_INCLUDE = ['LICENSE', 'README.md']
 STREAM = True
@@ -45,29 +46,19 @@ def create_template_ini_file():
                 'https://openai.com/blog/openai-codex/')
         sys.exit(1)
 
+
 def initialize_openai_api():
-    try:
-        with open(API_KEYS_LOCATION) as f:
-            config = f.read()
+    """
+    Initialize the OpenAI API
+    """
+    # Check if file at API_KEYS_LOCATION exists
+    create_template_ini_file()
+    config = configparser.ConfigParser()
+    config.read(API_KEYS_LOCATION)
 
-        config = '\n' + config 
-        # Reading the values works even when there are spaces around the = sign.
-        organization_id = config.split('organization_id')[1].split('=')[1].split('\n')[0].strip()
-        secret_key = config.split('secret_key')[1].split('=')[1].split('\n')[0].strip()
-    except:
-        print("Unable to read openaiapirc at {}".format(API_KEYS_LOCATION))
-        create_template_ini_file()
+    openai.organization_id = config['openai']['organization_id'].strip('"').strip("'")
+    openai.api_key = config['openai']['secret_key'].strip('"').strip("'")
 
-
-    # Remove the quotes if there are any.
-    if organization_id[0] == '"' and organization_id[-1] == '"':
-        organization_id = organization_id[1:-1]
-
-    if secret_key[0] == '"' and secret_key[-1] == '"':
-        secret_key = secret_key[1:-1]
-
-    openai.api_key = secret_key
-    openai.organization = organization_id
 
 
 def create_input_prompt(length=3000):
