@@ -87,7 +87,7 @@ def create_input_prompt(length=3000):
 
 
 def generate_completion(input_prompt, num_tokens):
-    response = openai.Completion.create(engine='davinci-codex', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
+    response = openai.Completion.create(engine='code-davinci-001', prompt=input_prompt, temperature=0.5, max_tokens=num_tokens, stream=STREAM, stop='===================\n')
     return response
 
 
