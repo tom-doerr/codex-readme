@@ -38,3 +38,6 @@ This project is based on the OpenAI Codex project.
 
 If you have any questions or would like to get in touch, please open an issue on Github or send me an email: <tom.doerr@tum.de>
 
+-------------------------------------------------------------------
+
+[Traffic Statistics](https://tom-doerr.github.io/github_repo_stats_data/tom-doerr/codex-readme/latest-report/report.html)
