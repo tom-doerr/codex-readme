@@ -91,6 +91,20 @@ def generate_completion(input_prompt, num_tokens):
     return response
 
 
+def generate_completion_chatgpt(input_prompt, num_tokens):
+    messages = [
+            {'role': 'user', 
+            'content': input_prompt}
+            ]
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        max_tokens=num_tokens,
+      messages=messages,
+    )
+
+    return response
+
 
 def clear_screen_and_display_generated_readme(response):
     # Clear screen.
@@ -108,6 +122,20 @@ def clear_screen_and_display_generated_readme(response):
         if next_response['choices'][0]['finish_reason'] != None: break
 
     return generated_readme
+
+
+def clear_screen_and_display_generated_readme_chatgpt(response):
+    # Clear screen.
+    os.system('cls' if os.name == 'nt' else 'clear')
+    generated_readme = ''
+    print(README_START)
+
+    response_text = response["choices"][0]["message"]['content']
+    print(response_text)
+    return generated_readme
+
+
+
 
 
 def save_readme(readme_text):
@@ -133,8 +161,12 @@ def generate_until_accepted(input_prompt, num_tokens):
     readme.
     '''
     while True:
-        response = generate_completion(input_prompt, num_tokens)
-        generated_readme = clear_screen_and_display_generated_readme(response)
+        if args.chatgpt:
+            response = generate_completion_chatgpt(input_prompt, num_tokens)
+            generated_readme = clear_screen_and_display_generated_readme_chatgpt(response)
+        else:
+            response = generate_completion(input_prompt, num_tokens)
+            generated_readme = clear_screen_and_display_generated_readme(response)
 
         # Ask the user if he wants to save the generated readme.
         answer = input("\n\nDo you want to save the generated README? [y/N] ")
@@ -153,6 +185,7 @@ def get_args():
     # Get the number of tokens as positional argument.
     parser = argparse.ArgumentParser()
     parser.add_argument("--tokens", type=int, default=256)
+    parser.add_argument("--chatgpt", action='store_true')
     args = parser.parse_args()
     return args
 
