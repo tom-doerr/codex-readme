@@ -21,13 +21,6 @@ It reads program files and concatenates the beginning of all files to create a i
 ```
 ./codex_readme.py
 ```
-To use it with ChatGPT:
-```
-./codex_readme.py --chatgpt
-```
-
-
-
 
 ## TODO
 
