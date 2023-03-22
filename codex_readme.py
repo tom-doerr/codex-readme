@@ -132,7 +132,7 @@ def clear_screen_and_display_generated_readme_chatgpt(response):
 
     response_text = response["choices"][0]["message"]['content']
     print(response_text)
-    return generated_readme
+    return response_text
 
 
 
