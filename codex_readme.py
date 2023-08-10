@@ -161,12 +161,8 @@ def generate_until_accepted(input_prompt, num_tokens):
     readme.
     '''
     while True:
-        if args.chatgpt:
-            response = generate_completion_chatgpt(input_prompt, num_tokens)
-            generated_readme = clear_screen_and_display_generated_readme_chatgpt(response)
-        else:
-            response = generate_completion(input_prompt, num_tokens)
-            generated_readme = clear_screen_and_display_generated_readme(response)
+        response = generate_completion_chatgpt(input_prompt, num_tokens)
+        generated_readme = clear_screen_and_display_generated_readme_chatgpt(response)
 
         # Ask the user if he wants to save the generated readme.
         answer = input("\n\nDo you want to save the generated README? [y/N] ")
@@ -185,7 +181,6 @@ def get_args():
     # Get the number of tokens as positional argument.
     parser = argparse.ArgumentParser()
     parser.add_argument("--tokens", type=int, default=256)
-    parser.add_argument("--chatgpt", action='store_true')
     args = parser.parse_args()
     return args
 
