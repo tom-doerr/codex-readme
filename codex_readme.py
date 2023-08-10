@@ -180,7 +180,7 @@ def generate_until_accepted(input_prompt, num_tokens):
 def get_args():
     # Get the number of tokens as positional argument.
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tokens", type=int, default=256)
+    parser.add_argument("--tokens", type=int, default=1024)
     args = parser.parse_args()
     return args
 
